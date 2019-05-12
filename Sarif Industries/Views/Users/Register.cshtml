@@ -1,0 +1,283 @@
+﻿@model Sarif_Industries.View_Models.UserRegistration
+
+<html>
+<head>
+    @{
+        ViewBag.Title = "Register";
+    }
+
+
+
+    <!-- Mobile Specific Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!-- Font-->
+    <link href="~/Content/Registration/css/opensans-font.css" rel="stylesheet" />
+    <link href="~/Content/Registration/fonts/line-awesome/css/line-awesome-font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/Registration/fonts/line-awesome/css/line-awesome-font-awesome.css" rel="stylesheet" />
+    <link href="~/Content/Registration/fonts/line-awesome/css/line-awesome.css" rel="stylesheet" />
+    <link href="~/Content/Registration/fonts/line-awesome/css/line-awesome.min.css" rel="stylesheet" />
+
+    <!-- Jquery -->
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <!-- Main Style Css -->
+    <link rel="stylesheet" href="~/Content/Registration/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/Registration/css/main.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/Registration/css/util.css">
+
+
+</head>
+<body class="form-v4 animsition">
+    <div class="page-content">
+        <div class="form-v4-content">
+            <div class="form-left">
+                <h2 class="text-center">Register</h2>
+                <div class="form-left-last">
+                    @Html.ActionLink("Have an account?", "Login", "",
+                   new { @class = "flex-c-m size15 bg1 bo-rad-50 hov1 s-text1 trans-0-4 text-center" })
+                </div>
+            </div>
+
+            @using (Html.BeginForm(null, "Users", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <section class="form-detail" id="register-form1">
+                    <div class='page-header'>
+                        <div class='btn-toolbar pull-right'>
+                            <div class='btn-group'>
+                                <button id="generate-btn" type="button" onclick="generateRandomFirstSection()" class="flex-c-m size9 bg1 bo-rad-23 hov1 s-text1 trans-0-4">
+                                    Auto Generate
+                                </button>
+                            </div>
+                        </div>
+                        <h2>REGISTRATION</h2>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-row form-row-1">
+                            <label for="first_name">First Name</label>
+                            <div class="size13 bo4 m-b-12">
+                                @Html.EditorFor(model => model.User.Forename,
+                               new { htmlAttributes = new
+                               {
+                                   @class = "text-capitalize alphaonly",
+                                   type = "text",
+                                   maxlength = 15,
+                                   id = "firstname"
+                               } })
+
+                                @Html.ValidationMessageFor(model => model.User.Forename, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-row form-row-1">
+                            <label for="last_name">Last Name</label>
+                            <div class="size13 bo4 m-b-12">
+                                @Html.EditorFor(model => model.User.Surname,
+                               new { htmlAttributes = new
+                               {
+                                   @class = "text-capitalize alphaonly",
+                                   type = "text",
+                                   maxlength = 15,
+                                   id = "surname"
+                               } })
+
+                                @Html.ValidationMessageFor(model => model.User.Surname, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <label for="your_email">Your Email</label>
+                        <span id="msg" class="text-danger text-capitalize m-l-10"></span>
+                        <div class="size15 bo4 m-b-12">
+                            @Html.EditorFor(model => model.User.Email,
+                           new { htmlAttributes = new
+                           {
+                               @class = "input100",
+                               type = "email",
+                               id = "email",
+                               maxlength = 30,
+                               pattern = @"/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/",
+                               onkeyup = "emailCheck()"
+                           } })
+
+                            @Html.ValidationMessageFor(model => model.User.Email, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-row form-row-1 ">
+                            <label for="password">Password</label>
+                            <div class="size13 bo4 m-b-12">
+
+                                <div class="wrap-input100 validate-input m-b-12">
+                                    <span class="btn-show-pass">
+                                        <i class="fa fa-eye"></i>
+                                    </span>
+                                    @Html.EditorFor(model => model.User.Password,
+                                   new { htmlAttributes = new
+                                   {
+                                       @class = "input100",
+                                       type = "password",
+                                       maxlength = 15,
+                                       id = "password"
+                                   } })
+
+                                    @Html.ValidationMessageFor(model => model.User.Password, "", new { @class = "text-danger" })
+                                    <span class="focus-input100"></span>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row-last p-l-200 p-t-20">
+                        <button id="proceed-btn" type="button" onclick="nextRegisterSection()" class="flex-c-m size9 bg1 bo-rad-23 hov1 s-text1 trans-0-4">
+                            Next
+                        </button>
+                    </div>
+                </section>
+                <section class="form-detail" id="register-form2">
+                    <div class='page-header'>
+                        <div class='btn-toolbar pull-right'>
+                            <div class='btn-group'>
+                                <button id="generate-btn" type="button" onclick="generateRandomSecondSection()" class="flex-c-m size9 bg1 bo-rad-23 hov1 s-text1 trans-0-4">
+                                    Auto Generate
+                                </button>
+                            </div>
+                        </div>
+                        <h2>REGISTRATION</h2>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-row form-row-1">
+                            <label for="address">Address</label>
+                            <div class="size13 bo4 m-b-12">
+                                @Html.EditorFor(model => model.User.Address,
+                               new { htmlAttributes = new
+                               {
+                                   @class = "text-capitalize",
+                                   type = "text",
+                                   @placeholder = "Address",
+                                   maxlength = 30,
+                                   id = "address"
+                               } })
+
+                                @Html.ValidationMessageFor(model => model.User.Address, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-row form-row-1">
+                            <label for="country">Country</label>
+                            <div class="rs2-select2 bo4 of-hidden w-size12 m-t-5 m-b-5 m-r-10">
+                                @Html.DropDownListFor(model => model.User.Country,
+                               new SelectList(Model.Country, "CountryID", "CountryName"),
+                               new
+                               {
+                                   @class = "selection-2",
+                                   id = "country"
+                               })
+
+                                @Html.ValidationMessageFor(model => model.User.Country, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-row form-row-1">
+                            <label for="postcode">PostCode</label>
+                            <div class="size13 bo4 m-b-12">
+                                @Html.EditorFor(model => model.User.PostCode,
+                               new { htmlAttributes = new
+                               {
+                                   @class = "text-uppercase",
+                                   type = "text",
+                                   maxlength = 10,
+                                   @placeholder = "A12 3CD",
+                                   pattern = "[A-Za-z]{1,2}[0-9Rr][0-9A-Za-z]?+ [0-9][ABD-HJLNP-UW-Zabd-hjlnp-uw-z]{2}",
+                                   id = "postcode"
+                               } })
+
+                                @Html.ValidationMessageFor(model => model.User.PostCode, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-row form-row-1">
+                            <label for="phone">Phone</label>
+                            <div class="size13 bo4 m-b-12">
+                                @Html.EditorFor(model => model.User.Phone,
+                               new { htmlAttributes = new
+                               {
+                                   @class = "numbersonly",
+                                   type = "tel",
+                                   maxlength = 13,
+                                   @placeholder = "123 4567 8901",
+                                   pattern = @"^(((\+44\s?\d{4}|\(?0\d{4}\)?)\s?\d{3}\s?\d{3})|((\+44\s?\d{3}|\(?0\d{3}\)?)\s?\d{3}\s?\d{4})|((\+44\s?\d{2}|\(?0\d{2}\)?)\s?\d{4}\s?\d{4}))(\s?\#(\d{4}|\d{3}))?$",
+                                   id = "phone-number"
+                               } })
+
+                                @Html.ValidationMessageFor(model => model.User.Phone, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group form-row-last p-l-30 p-t-30">
+                        <div class="form-row form-row-1">
+                            <button type="button" onclick="backRegisterSection()" class="flex-c-m size9 bg1 bo-rad-23 hov1 s-text1 trans-0-4">
+                                Back
+                            </button>
+                        </div>
+                        <div class="form-row form-row-1">
+                            <button id="registerBtn" class="flex-c-m size9 bg1 bo-rad-23 hov1 s-text1 trans-0-4" name="regCmd">
+                                Register
+                            </button>
+                        </div>
+                    </div>
+                </section>
+            }
+
+        </div>
+    </div>
+
+    <div id="dropDownSelect1"></div>
+    <div id="dropDownSelect2"></div>
+
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+</html>
+
+<script src="~/Scripts/registration.js"></script>
+<script type="text/javascript" src="~/Scripts/specific-chars-only.js"></script>
+<script src="~/Content/Registration/js/main.js"></script>
+<script src="~/Scripts/generate-account.js"></script>
+
+
+<script type="text/javascript" src="~/Content/vendor/select2/select2.min.js"></script>
+<script type="text/javascript">
+    $(".selection-1").select2({
+        minimumResultsForSearch: 20,
+        dropdownParent: $('#dropDownSelect1')
+    });
+
+    $(".selection-2").select2({
+        minimumResultsForSearch: 20,
+        dropdownParent: $('#dropDownSelect2')
+    });
+</script>
+
+
+<script>
+
+    $("#register-form2").hide();
+
+
+    function nextRegisterSection() {
+        $("#register-form1").hide();
+        $("#register-form2").show();
+    }
+
+    function backRegisterSection() {
+        $("#register-form1").show();
+        $("#register-form2").hide();
+    }
+
+</script>

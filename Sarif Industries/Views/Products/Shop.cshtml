@@ -1,0 +1,291 @@
+﻿@model Sarif_Industries.View_Models.ProductShop
+
+<!DOCTYPE html>
+<head>
+    @{
+        ViewBag.Title = "Shop";
+    }
+
+</head>
+<body>
+
+    <!-- Title Page -->
+    <section class="bg-title-page p-t-50 p-b-40 flex-col-c-m bg7">
+        <h2 class="l-text2 t-center">
+            Shop
+        </h2>
+        <p class="m-text13 t-center text-uppercase">
+            Explore
+        </p>
+    </section>
+
+
+    <!-- Content page -->
+    <section class="bgwhite p-t-55 p-b-65">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 col-md-4 col-lg-3 p-b-50 text-center text-white">
+                    <div class="leftbar p-r-20 p-r-0-sm bg1">
+
+                        <!--  -->
+                        <h4 class="m-text14 p-b-7 p-t-25 text-white">
+                            Categories
+                        </h4>
+
+                        <ul class="p-b-54">
+                            <li class="p-t-4">
+
+                                <a href="#" class="s-text13 active1">
+                                    @Html.ActionLink("All", "Shop", new { category = "" }, new { @class = " text-white" })
+                                    <span class="text-info">(@Model.TotalCategoryCount)</span> 
+                                </a>
+
+                            </li>
+
+                            @foreach (var item in Model.ProductCategories)
+                            {
+                                <li class="p-t-4">
+                                    <a href="#" class="s-text13">
+                                        @Html.ActionLink(@item.Category, "Shop", new { category = @item.Category }, new { @class = "text-white" })
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+
+
+
+
+
+                        <div class="filter-color p-t-22 p-b-50 m-l-10 bo3">
+
+                            <div class="m-text14 p-b-12  text-white">
+                                Colour
+                            </div>
+
+                            <ul id="colour-selection" class="p-b-54 p-l-10">
+
+                                @foreach (var item in Model.ProductColours)
+                                {
+                                    <li id="@item.Colour" class="p-t-4 m-l-2 m-b-5 p-b-1 hov1">
+                                        <a href="@Url.Action("Shop", "Products", new { colour = @item.Colour })">
+                                            <input class="checkbox-color-filter" id="@item.Colour-checkbox" type="checkbox" name="@item.Colour">
+                                            <div class="row">
+
+                                                <label class="color-filter m-l-40 m-b-10 " style="background-color: @item.Colour" for="@item.Colour-checkbox"></label>
+
+                                                <div class="m-l-50 text-white">
+                                                    @item.Colour
+                                                </div>
+
+                                            </div>
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+
+                        <div class="search-product pos-relative of-hidden m-l-20 p-b-10">
+
+                            @using (Html.BeginForm())
+                            {
+                                @Html.TextBox("SearchString", null, new { @class = "s-text7 size6 p-l-23 p-r-50", @placeholder = "Search Products..." })
+
+                                <button class="flex-c-m size5 ab-r-m color2 color0-hov trans-0-4">
+                                    <i class="fs-12 fa fa-search" aria-hidden="true"></i>
+                                </button>
+                            }
+
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-md-8 col-lg-9 p-b-50">
+
+
+                    <div class="flex-sb-m flex-w p-b-35">
+                        <div class="flex-w">
+
+                            <div class="rs2-select2 bo4 of-hidden w-size12 m-t-5 m-b-5 m-r-10">
+                                @Html.DropDownList("PriceSort", Model.PriceSort, "Default Sorting",
+                               new { @class = "selection-2", @id = "SelID", @onchange = "SelectPriceSort()" })
+                            </div>
+
+                            <div class="rs2-select2 bo4 of-hidden w-size12 m-t-5 m-b-5 m-r-10">
+                                @Html.DropDownList("PriceRange", Model.PriceRange, "Price",
+                               new { @class = "selection-2", @id = "price-range-selection", @onchange = "SelectPriceRange()" })
+                            </div>
+                        </div>
+
+                        <span class="s-text8 p-t-5 p-b-5 font-weight-bold">
+                            @Model.SelectedPrice
+                        </span>
+
+                        <span class="s-text8 p-t-5 p-b-5 font-weight-bold">
+                            @Model.SelectedCategory
+                        </span>
+
+                        <span class="s-text8 p-t-5 p-b-5 font-weight-bold">
+                            @Model.SelectedColour
+                        </span>
+
+                        <span class="s-text8 p-t-5 p-b-5 font-weight-bold">
+                            @Model.Search
+                        </span>
+
+                        @* Clear all filters *@
+                        <div class="size9 trans-0-4 m-t-10 m-b-10 m-r-10">
+                            @Html.ActionLink("Clear All Filters", "Shop", new { colour = "", category = "", price = "" }, new { @class = "flex-c-m size4 bg7 bo-rad-23 hov1 s-text14 trans-0-4" })
+                        </div>
+
+                    </div>
+
+                    <!-- Product -->
+                    <div id="product-section" class="row">
+                        @foreach (var item in Model.Product)
+                        {
+                            <div class="col-sm-12 col-md-6 col-lg-4 p-b-50">
+                                <!-- Block2 -->
+                                <div class="block2">
+
+                                    <a href="@Url.Action("Details","Products", new { id = item.ProductId })">
+
+                                        <div class="block2-img wrap-pic-w of-hidden pos-relative">
+
+                                            @foreach (var thumbnail in Model.ProductThumbnail)
+                                            {
+                                                if (thumbnail.ProductId == item.ProductId)
+                                                {
+                                                    if (item.Stock > 0)
+                                                    {
+                                                        if (item.StateId == 2)
+                                                        {
+                                                            <div class="square block2-labelsale">
+                                                                <div class="productImage">
+                                                                    <img src="@thumbnail.FilePath" alt="IMG-PRODUCT">
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                        else
+                                                        {
+                                                            <div class="square">
+                                                                <div class="productImage">
+                                                                    <img src="@thumbnail.FilePath" alt="IMG-PRODUCT">
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="square block2-labelsoldout">
+                                                            <div class="productImage">
+                                                                <img src="@thumbnail.FilePath" alt="IMG-PRODUCT">
+                                                            </div>
+                                                        </div>
+                                                    }
+
+
+                                                }
+                                            }
+                                        </div>
+                                    </a>
+
+                                    <div class="block2-txt p-t-20">
+                                        <a href="@Url.Action("Details","Products", new { id = item.ProductId })" class="block2-name dis-block s-text3 p-b-5">
+                                            @Html.DisplayFor(modelItem => item.Name)
+                                        </a>
+
+                                        @if (item.Stock > 0)
+                                        {
+                                            @* Products on sale *@
+                                            if (item.StateId == 2)
+                                            {
+                                                <span class="block2-oldprice m-text7 p-r-5">
+                                                    £@Html.DisplayFor(modelItem => item.Price)
+                                                </span>
+
+                                                foreach (var productSale in Model.ProductSalePrice)
+                                                {
+                                                    if (productSale.ProductId == item.ProductId)
+                                                    {
+                                                        <span class="block2-newprice m-text8 p-r-5">
+                                                            £@productSale.SalePrice
+                                                        </span>
+                                                    }
+                                                }
+                                            }
+                                            @* Products not on sale *@
+                                            else
+                                            {
+                                                <span class="block2-price m-text6 p-r-5">
+                                                    £@Html.DisplayFor(modelItem => item.Price)
+                                                </span>
+                                            }
+                                        }
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+
+
+    <!-- Back to top -->
+    <div class="btn-back-to-top bg0-hov" id="myBtn">
+        <span class="symbol-btn-back-to-top">
+            <i class="fa fa-angle-double-up" aria-hidden="true"></i>
+        </span>
+    </div>
+
+    <!-- Container Selection -->
+    <div id="dropDownSelect1"></div>
+    <div id="dropDownSelect2"></div>
+
+</body>
+
+
+
+
+<script type="text/javascript" src="~/Content/vendor/select2/select2.min.js"></script>
+<script type="text/javascript" src="~/Content/vendor/noui/nouislider.min.js"></script>
+
+<script type="text/javascript">
+    $(".selection-1").select2({
+        minimumResultsForSearch: 20,
+        dropdownParent: $('#dropDownSelect1')
+    });
+
+    $(".selection-2").select2({
+        minimumResultsForSearch: 20,
+        dropdownParent: $('#dropDownSelect2')
+    });
+</script>
+
+<script type="text/javascript">
+
+
+    function SelectPriceSort() {
+
+        var price = $("#SelID  option:selected").text();
+
+        var url = '@Url.Action("Shop", "Products")?price=' + price;
+        window.location = url;
+    }
+
+    function SelectPriceRange() {
+
+        var price = $("#price-range-selection  option:selected").text();
+
+        var url = '@Url.Action("Shop", "Products")?price=' + price;
+        window.location = url;
+    }
+
+
+</script>

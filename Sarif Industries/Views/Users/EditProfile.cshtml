@@ -1,0 +1,214 @@
+﻿@model Sarif_Industries.View_Models.UserRegistration
+
+<head>
+    @{
+        ViewBag.Title = "Edit Profile";
+    }
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.User.UserId)
+    @Html.HiddenFor(model => model.User.JoinDate)
+
+    <div class="container bootstrap snippet">
+        <div class="row">
+            <div class="col-sm-10"><h1>@Model.User.Forename @Model.User.Surname</h1></div>
+            <div class="col-sm-2"><img title="profile image" class="img-circle img-responsive" src="~/Content/images/sarif_logo.png"></div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3">
+                <!--left col-->
+
+                <div class="text-center">
+                    <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" class="avatar img-circle img-thumbnail" alt="avatar">
+                </div>
+
+            </div><!--/col-3-->
+
+            <div class="col-sm-9">
+                <form class="form" action="##" method="post" id="registrationForm">
+                    <div class="form-group">
+
+                        <div class="col-xs-6">
+                            <label for="first_name" class="h4">First name</label>
+
+                            @Html.EditorFor(model => model.User.Forename,
+                           new { htmlAttributes = new
+                           {
+                               @class = "text-capitalize alphaonly form-control",
+                               type = "text",
+                               id = "firstname"
+                           } })
+
+                            @Html.ValidationMessageFor(model => model.User.Forename, "", new { @class = "text-danger" })
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+
+                        <div class="col-xs-6">
+                            <label for="last_name" class="h4">Last name</label>
+
+                            @Html.EditorFor(model => model.User.Surname,
+                           new { htmlAttributes = new
+                           {
+                               @class = "text-capitalize alphaonly form-control",
+                               type = "text",
+                               id = "surname"
+                           } })
+
+                            @Html.ValidationMessageFor(model => model.User.Surname, "", new { @class = "text-danger" })
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="col-xs-6">
+                            <label for="phone" class="h4">Phone</label>
+                            @Html.EditorFor(model => model.User.Phone,
+                           new { htmlAttributes = new
+                           {
+                               @class = "numbersonly form-control",
+                               type = "tel",
+                               maxlength = 13,
+                               @placeholder = "123 4567 8901",
+                               pattern = @"^(((\+44\s?\d{4}|\(?0\d{4}\)?)\s?\d{3}\s?\d{3})|((\+44\s?\d{3}|\(?0\d{3}\)?)\s?\d{3}\s?\d{4})|((\+44\s?\d{2}|\(?0\d{2}\)?)\s?\d{4}\s?\d{4}))(\s?\#(\d{4}|\d{3}))?$
+"
+                           } })
+
+                            @Html.ValidationMessageFor(model => model.User.Phone, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="col-xs-6">
+                            <label for="email" class="h4">Location</label>
+                            <img src="https://www.countryflags.io/@Model.User.Country/shiny/16.png">
+
+                            <div class="rs2-select2 rs3-select2 bo4 of-hidden w-size16">
+
+                                @Html.DropDownListFor(model => model.User.Country,
+                               new SelectList(Model.Country, "CountryID", "CountryName", Model.User.Country),
+                               new { @class = "selection-2" })
+
+                                @Html.ValidationMessageFor(model => model.User.Country, "", new { @class = "text-danger" })
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="col-xs-6">
+                            <label for="address" class="h4">Address</label>
+                            @Html.EditorFor(model => model.User.Address,
+                               new { htmlAttributes = new
+                               {
+                                   @class = "form-control text-capitalize",
+                                   type = "text",
+                                   @placeholder = "Address"
+                               } })
+
+
+                            @Html.ValidationMessageFor(model => model.User.Address, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="col-xs-6">
+                            <label for="postcode" class="h4">PostCode</label>
+                            @Html.EditorFor(model => model.User.PostCode,
+                           new { htmlAttributes = new
+                           {
+                               @class = "form-control text-uppercase",
+                               type = "text",
+                               maxlength = 7,
+                               @placeholder = "A12 3CD",
+                               pattern = "[A-Za-z]{1,2}[0-9Rr][0-9A-Za-z]?+ [0-9][ABD-HJLNP-UW-Zabd-hjlnp-uw-z]{2}"
+                           } })
+
+                            @Html.ValidationMessageFor(model => model.User.PostCode, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <div class="col-xs-6">
+                            <label for="email" class="h4">Email</label>
+                            <span id="msg" class="text-danger text-capitalize m-l-10"></span>
+
+                            @Html.EditorFor(model => model.User.Email,
+                           new { htmlAttributes = new
+                           {
+                               @class = "form-control",
+                               type = "email",
+                               id = "email",
+                           } })
+
+
+                            @Html.ValidationMessageFor(model => model.User.Email, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="col-xs-6">
+                            <label for="password" class="h4">New Password</label>
+
+                            @Html.EditorFor(model => model.User.Password,
+                           new { htmlAttributes = new
+                           {
+                               @class = "form-control",
+                               type = "password",
+                               id = "password"
+                           } })
+
+                            @Html.ValidationMessageFor(model => model.User.Password, "", new { @class = "text-danger" })
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            <br>
+                            <button id="proceed-btn" class="btn btn-lg btn-info pull-right" type="submit">
+                                <i class="glyphicon glyphicon-ok-sign"></i>
+                                Update
+                            </button>
+                            @Html.ActionLink("Back", "UserProfile",
+                           new { id = Model.User.UserId },
+                           new { @class = "btn btn-lg" })
+                        </div>
+                    </div>
+                </form>
+
+            </div><!--/tab-content-->
+        </div><!--/col-9-->
+    </div><!--/row-->
+    <div id="dropDownSelect2"></div>
+}
+
+<script type="text/javascript" src="~/Scripts/specific-chars-only.js"></script>
+
+<script type="text/javascript" src="~/Content/vendor/select2/select2.min.js"></script>
+
+<script type="text/javascript">
+
+    $(".selection-2").select2({
+        minimumResultsForSearch: 20,
+        dropdownParent: $('#dropDownSelect2')
+    });
+</script>
+
+<script src="~/Scripts/editprofile.js"></script>

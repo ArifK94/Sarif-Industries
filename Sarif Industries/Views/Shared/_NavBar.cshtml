@@ -1,0 +1,234 @@
+﻿<!-- Header -->
+<header class="header1">
+    <!-- Header desktop -->
+    <div class="container-menu-header">
+        <div class="topbar">
+            @if (HttpContext.Current.Session["UserID"] != null)
+            {
+                <div class="topbar-child1">
+                    Signed in as: @Html.Raw(HttpContext.Current.Session["Name"])
+                </div>
+
+                <div class="topbar-child2">
+                    <span class="topbar-email">
+                        <a href="@Url.Action("LogOut","Users")">
+                            Sign out
+                        </a>
+                    </span>
+                </div>
+            }
+            else
+            {
+                <div class="topbar-child2">
+                    <span class="topbar-email">
+                        <a href="@Url.Action("Login","Users")">
+                            Sign in
+                        </a>
+                    </span>
+                </div>
+            }
+
+        </div>
+
+        <div class="wrap_header">
+            <!-- Logo -->
+            <a href="@Url.Action("Index", "Home")" class="logo">
+                <img src="~/Content/images/sarif_logo.png" alt="IMG-LOGO">
+            </a>
+
+            <!-- Menu -->
+            <div class="wrap_menu">
+                <nav class="menu">
+                    <ul class="main_menu">
+                        <li>
+                            @Html.ActionLink("Home", "Index", "Home")
+                        </li>
+
+                        <li>
+                            @Html.ActionLink("Shop", "Shop", "Products")
+                        </li>
+
+                        <li class="sale-noti">
+                            @Html.ActionLink("Sale", "Sale", "Products")
+                        </li>
+
+                        <li>
+                            @Html.ActionLink("Cart", "Cart", "Carts")
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+            <!-- Header Icon -->
+            <div class="header-icons">
+                <ul class="main_menu">
+                    @if (HttpContext.Current.Session["UserID"] != null)
+                    {
+                        <li>
+                            <a href="@Url.Action("UserProfile","Users")" class="header-wrapicon1 dis-block">
+                                <img src="~/Content/images/icons/icon-header-01-signedin.png" class="header-icon1" alt="ICON">
+                            </a>
+
+                            <ul class="sub_menu">
+                                <li>
+                                    <a href="@Url.Action("UserProfile","Users")" class="header-wrapicon1 dis-block">
+                                        Profile
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Order","Carts")" class="header-wrapicon1 dis-block">
+                                        Orders
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("LogOut","Users")" class="header-wrapicon1 dis-block">
+                                        Sign Out
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    }
+                    else
+                    {
+
+                        <li>
+                            <a href="@Url.Action("Login","Users")" class="header-wrapicon1 dis-block">
+                                <img src="~/Content/images/icons/icon-header-01.png" class="header-icon1" alt="ICON">
+                            </a>
+
+                            <ul class="sub_menu">
+                                <li>
+                                    <a href="@Url.Action("Login","Users")" class="header-wrapicon1 dis-block">
+                                        Sign in
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Register","Users")" class="header-wrapicon1 dis-block">
+                                        Register
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+
+                    }
+                </ul>
+
+
+                <span class="linedivide1"></span>
+
+                <div class="header-wrapicon2">
+
+                    <!-- Header cart noti -->
+                    @Html.Partial("_CartMenu")
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Header Mobile -->
+    <div class="wrap_header_mobile">
+        <!-- Logo moblie -->
+        <a href="@Url.Action("Index", "Home")" class="logo-mobile">
+            <img src="~/Content/images/sarif_logo.png" alt="IMG-LOGO">
+        </a>
+
+        <!-- Button show menu -->
+        <div class="btn-show-menu">
+            <!-- Header Icon mobile -->
+            <div class="header-icons-mobile">
+                <a href="@Url.Action("Login","Users")" class="header-wrapicon1 dis-block">
+                    <img src="~/Content/images/icons/icon-header-01.png" class="header-icon1" alt="ICON">
+                </a>
+
+                <span class="linedivide2"></span>
+
+                <div class="header-wrapicon2">
+
+                    <!-- Header cart noti -->
+                    @Html.Partial("_CartMenu");
+
+                </div>
+            </div>
+
+            <div class="btn-show-menu-mobile hamburger hamburger--squeeze">
+                <span class="hamburger-box">
+                    <span class="hamburger-inner"></span>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Menu Mobile -->
+    <div class="wrap-side-menu">
+        <nav class="side-menu">
+            <ul class="main-menu">
+
+                @if (HttpContext.Current.Session["UserID"] != null)
+                {
+                    <li class="item-topbar-mobile p-l-20 p-t-8 p-b-8">
+                        <span class="topbar-child1">
+                            Signed in as: @Html.Raw(HttpContext.Current.Session["Name"])
+                        </span>
+                    </li>
+
+                    <li class="item-topbar-mobile p-l-20 p-t-8 p-b-8">
+                        <span class="topbar-child1">
+                            <a href="@Url.Action("UserProfile","Users")" class="header-wrapicon1 dis-block">
+                                Profile
+                            </a>
+                        </span>
+                    </li>
+
+                    <li class="item-topbar-mobile p-l-20 p-t-8 p-b-8">
+                        <span class="topbar-child1">
+                            <a href="@Url.Action("Order","Carts")" class="header-wrapicon1 dis-block">
+                                Orders
+                            </a>
+                        </span>
+                    </li>
+
+
+                    <li class="item-topbar-mobile p-l-20 p-t-8 p-b-8">
+                        <div class="topbar-child2-mobile">
+                            <span class="topbar-email">
+                                <a href="@Url.Action("LogOut","Users")">
+                                    Sign out
+                                </a>
+                            </span>
+                        </div>
+                    </li>
+                }
+                else
+                {
+                    <li class="item-topbar-mobile p-l-20 p-t-8 p-b-8">
+                        <span class="topbar-child1">
+                            <a href="@Url.Action("Login","Users")">
+                                Sign in
+                            </a>
+                        </span>
+                    </li>
+                }
+
+
+
+                <li class="item-menu-mobile">
+                    @Html.ActionLink("Home", "Index", "Home")
+                </li>
+
+                <li class="item-menu-mobile">
+                    @Html.ActionLink("Shop", "Shop", "Products")
+                </li>
+
+                <li class="item-menu-mobile">
+                    @Html.ActionLink("Sale", "Sale", "Products")
+                </li>
+
+                <li class="item-menu-mobile">
+                    @Html.ActionLink("Cart", "Cart", "Carts")
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>

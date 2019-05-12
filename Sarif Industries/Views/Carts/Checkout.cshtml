@@ -1,0 +1,224 @@
+﻿@model Sarif_Industries.View_Models.Checkout
+<html>
+<head>
+    @{
+        ViewBag.Title = "Checkout";
+    }
+
+</head>
+<body>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="site-wrap">
+            <div class="bg-light py-3">
+            </div>
+            <div class="site-section">
+                <div class="container">
+
+                    <div class="row">
+
+                        @for (int i = 0; i < Model.Orders.Count; i++)
+                        {
+                            <div class="col-md-6 mb-5 mb-md-0">
+                                <h2 class="h3 mb-3 text-black">Billing Details</h2>
+                                <div class="p-3 p-lg-5 border">
+                                    <div class="form-group">
+                                        <label for="c_country" class="text-black">Country <span class="text-danger">*</span></label>
+                                        <div class="flex-m flex-w p-b-10">
+                                            <div class="rs2-select2 rs3-select2 bo4 of-hidden w-size16">
+                                                @Html.DropDownListFor(model => model.Orders[i].Country, new SelectList(Model.CountryList, "CountryID", "CountryName", Model.User.Country), new { @class = "selection-2" })
+                                                @Html.ValidationMessageFor(model => model.Orders[i].Country, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-6">
+                                            <label for="c_fname" class="text-black">First Name <span class="text-danger">*</span></label>
+                                            <div class="size11 bo4 m-r-10">
+                                                @Html.EditorFor(model => model.Orders[i].FirstName, new { htmlAttributes = new { @class = "sizefull s-text7 p-l-22 p-r-22", type = "text", @placeholder = "Forename", @Value = ViewBag.Forename } })
+                                                @Html.ValidationMessageFor(model => model.Orders[i].FirstName, "Forename is required", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="c_lname" class="text-black">Last Name <span class="text-danger">*</span></label>
+                                            <div class="size11 bo4 m-r-10">
+                                                @Html.EditorFor(model => model.Orders[i].LastName, new { htmlAttributes = new { @class = "sizefull s-text7 p-l-22 p-r-22", type = "text", @placeholder = "Surname", @Value = ViewBag.Surname } })
+                                                @Html.ValidationMessageFor(model => model.Orders[i].LastName, "Surname is required", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-12">
+                                            <label for="c_address" class="text-black">Address <span class="text-danger">*</span></label>
+                                            <div class="size11 bo4 m-r-10">
+                                                @Html.EditorFor(model => model.Orders[i].Address, new { htmlAttributes = new { @class = "sizefull s-text7 p-l-22 p-r-22", type = "text", @placeholder = "Address", @Value = ViewBag.Address } })
+                                                @Html.ValidationMessageFor(model => model.Orders[i].Address, "Address is required", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-6">
+                                            <label for="c_state_country" class="text-black">County</label>
+                                            <div class="size11 bo4 m-r-10">
+                                                @Html.EditorFor(model => model.Orders[i].County, new { htmlAttributes = new { @class = "sizefull s-text7 p-l-22 p-r-22", type = "text", @placeholder = "County", @Value = ViewBag.County } })
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="c_postal_zip" class="text-black">Posta / Zip <span class="text-danger">*</span></label>
+                                            <div class="size11 bo4 m-r-10">
+                                                @Html.EditorFor(model => model.Orders[i].PostCode, new { htmlAttributes = new { @class = "sizefull s-text7 p-l-22 p-r-22", type = "text", @placeholder = "PostCode", @Value = ViewBag.PostCode } })
+                                                @Html.ValidationMessageFor(model => model.Orders[i].PostCode, "PostCode is required", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row mb-5">
+                                        <div class="col-md-6">
+                                            <label for="c_phone" class="text-black">Phone <span class="text-danger">*</span></label>
+                                            <div class="size11 bo4 m-r-10">
+                                                @Html.EditorFor(model => model.User.Phone, new { htmlAttributes = new { @class = "sizefull s-text7 p-l-22 p-r-22", type = "text", @placeholder = "Phone", @Value = ViewBag.Phone } })
+                                                @Html.ValidationMessageFor(model => model.User.Phone, "Phone is required", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="c_order_notes" class="text-black">Order Notes</label>
+
+                                        <div class="size11 bo4 m-r-10">
+                                            @Html.TextAreaFor(model => model.Orders[i].Notes, new { cols = 35, @rows = 3, @class = "sizefull s-text7 p-l-22 p-r-22", @placeholder = "Write your notes here..." })
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row mb-5">
+                                    <div class="col-md-12">
+                                        <h2 class="h3 mb-3 text-black">Coupon Code</h2>
+                                        <div class="p-3 p-lg-5 border">
+
+                                            <div class="flex-w flex-m w-full-sm">
+                                                <div class="size11 bo4 m-r-10">
+                                                    <input class="sizefull s-text7 p-l-22 p-r-22" type="text" name="coupon-code" placeholder="Coupon Code">
+                                                </div>
+
+                                                <div class="size12 trans-0-4 m-t-10 m-b-10 m-r-10">
+                                                    <button class="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4">
+                                                        Apply coupon
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-5">
+                                    <div class="col-md-12">
+                                        <h2 class="h3 mb-3 text-black">Order</h2>
+                                        <div class="p-3 p-lg-5 border">
+
+                                            <table class="table site-block-order-table mb-5">
+                                                <thead>
+                                                <th>Product</th>
+                                                <th>Quantity</th>
+                                                <th>Colour</th>
+                                                <th>Total</th>
+
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var product in Model.Product)
+                                                    {
+                                                        foreach (var cart in Model.Cart)
+                                                        {
+                                                            if (cart.ProductId == product.ProductId)
+                                                            {
+
+                                                                <tr>
+                                                                    @{decimal subtotal = cart.Price * cart.Quantity;}
+
+                                                                    <td>@product.Name</td>
+                                                                    <td>@cart.Quantity</td>
+                                                                    <td>@cart.Colour</td>
+                                                                    <td>£@subtotal</td>
+                                                                </tr>
+                                                            }
+                                                        }
+                                                    }
+
+                                                    <tr>
+                                                        <td class="text-black font-weight-bold"><strong>Cart Subtotal</strong></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td class="text-black">£@ViewData["grandtotal"]</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-black font-weight-bold"><strong>Order Total</strong></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td class="text-black font-weight-bold"><strong>£@ViewData["grandtotal"]</strong></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
+                                            <div class="border p-3 mb-3">
+                                                <h3 class="h6 mb-0"><a class="d-block" data-toggle="collapse" href="#collapsebank" role="button" aria-expanded="false" aria-controls="collapsebank">Direct Bank Transfer</a></h3>
+                                                <div class="collapse" id="collapsebank">
+                                                    <div class="py-2">
+                                                        <p class="mb-0">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="border p-3 mb-3">
+                                                <h3 class="h6 mb-0"><a class="d-block" data-toggle="collapse" href="#collapsecheque" role="button" aria-expanded="false" aria-controls="collapsecheque">Cheque Payment</a></h3>
+                                                <div class="collapse" id="collapsecheque">
+                                                    <div class="py-2">
+                                                        <p class="mb-0">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="border p-3 mb-5">
+                                                <h3 class="h6 mb-0"><a class="d-block" data-toggle="collapse" href="#collapsepaypal" role="button" aria-expanded="false" aria-controls="collapsepaypal">Paypal</a></h3>
+                                                <div class="collapse" id="collapsepaypal">
+                                                    <div class="py-2">
+                                                        <p class="mb-0">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+
+                                                <div class="size15 trans-0-4">
+                                                    <button class="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4">
+                                                        Place Order
+                                                    </button>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <!-- </form> -->
+                </div>
+            </div>
+        </div>
+    }
+    <div id="dropDownSelect2"></div>
+
+</body>
+</html>
+
+<script type="text/javascript" src="~/Content/vendor/select2/select2.min.js"></script>
+
+<script type="text/javascript">
+
+    $(".selection-2").select2({
+        minimumResultsForSearch: 20,
+        dropdownParent: $('#dropDownSelect2')
+    });
+</script>

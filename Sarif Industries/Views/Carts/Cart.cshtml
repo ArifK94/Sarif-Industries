@@ -1,0 +1,180 @@
+﻿@model Sarif_Industries.View_Models.ShoppingCart
+
+<!DOCTYPE html>
+<head>
+
+    @{
+        ViewBag.Title = "Cart";
+    }
+</head>
+<body class="animsition">
+
+    <input id="productId" type="hidden" />
+
+    <!-- Title Page -->
+    <section class="bg-title-page p-t-40 p-b-50 flex-col-c-m bg7">
+        <h2 id="cartheading" class="l-text2 t-center">
+            Cart
+        </h2>
+        <div id="shopbtn" class="wrap-btn-slide1 w-size1 animated visible-true" data-appear="zoomIn">
+            <!-- Button -->
+            <a href="@Url.Action("Shop","Products")" class="flex-c-m size2 bo-rad-23 s-text2 bgwhite hov1 trans-0-4">
+                Shop Now
+            </a>
+        </div>
+    </section>
+
+    @{
+        int index = 0;
+    }
+
+    <!-- Cart -->
+    <section id="cartsection" class="cart bgwhite p-t-70 p-b-100">
+        <div class="container">
+            <!-- Cart item -->
+            <div class="container-table-cart pos-relative">
+                <div class="wrap-table-shopping-cart bgwhite">
+                    <table class="table-shopping-cart">
+                        <tr class="table-head">
+                            <th class="column-1"></th>
+                            <th class="column-2">Product</th>
+                            <th class="column-2">Colour</th>
+                            <th class="column-3">Price</th>
+                            <th class="column-4">Quantity</th>
+                            <th class="column-5">SubTotal</th>
+                        </tr>
+
+                        @if (ViewData["cart"] != null)
+                        {
+                            foreach (var cart in ViewData["cart"] as IEnumerable<Sarif_Industries.Models.Cart>)
+                            {
+                                foreach (var product in ViewData["product"] as IEnumerable<Sarif_Industries.Models.Product>)
+                                {
+                                    if (cart.ProductId == product.ProductId)
+                                    {
+                                        <tr class="table-row">
+                                            @foreach (var thumbnail in ViewData["productImage"] as IEnumerable<Sarif_Industries.Models.ProductImage>)
+                                            {
+                                                if (thumbnail.ProductId == cart.ProductId)
+                                                {
+                                                    <td class="column-1">
+                                                        <div class="cart-img-product b-rad-4 o-f-hidden" onclick="DeleteItem(@cart.ProductId)">
+                                                            <img src="@thumbnail.FilePath" alt="IMG-PRODUCT">
+                                                        </div>
+                                                    </td>
+                                                }
+                                            }
+
+                                            <td class="column-2">@product.Name</td>
+                                            <td class="column-2"> @cart.Colour</td>
+                                            <td class="column-3">£@cart.Price</td>
+                                            <td class="column-4">@cart.Quantity</td>
+
+                                            @{decimal subtotal = cart.Price * cart.Quantity;}
+
+                                            <td class="column-5">£@subtotal</td>
+
+                                            <td class="column-5">
+
+                                                <div class="size9">
+                                                    @if (HttpContext.Current.Session["UserID"] != null)
+                                                    {
+                                                        @Html.ActionLink("Edit Item", "Edit",
+                                                       new { id = cart.cartId },
+                                                       new { @class = "flex-c-m size1 bg7 bo-rad-15 hov1 s-text14 trans-0-4" })
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.ActionLink("Edit Item", "Edit",
+                                                       new { id = index },
+                                                       new { @class = "flex-c-m size1 bg7 bo-rad-15 hov1 s-text14 trans-0-4" })
+                                                    }
+
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        index++;
+
+                                    }
+                                }
+                            }
+                        }
+                    </table>
+
+                </div>
+            </div>
+
+            <!-- Total -->
+            <div class="bo9 w-size18 p-l-40 p-r-40 p-t-30 p-b-38 m-t-30 m-r-0 m-l-auto p-lr-15-sm">
+                <h5 class="m-text20 p-b-24">
+                    Cart Totals
+                </h5>
+
+                <!--  -->
+                <div class="flex-w flex-sb-m p-t-26 p-b-30">
+                    <span class="m-text22 w-size19 w-full-sm">
+                        Total:
+                    </span>
+
+                    <span class="m-text21 w-size20 w-full-sm">
+                        £@ViewData["grandtotal"]
+                    </span>
+                </div>
+
+                <div class="size15 trans-0-4">
+
+                    @Html.ActionLink("Proceed to Checkout", "Checkout",
+                   null,
+                   new { @class = "flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4" })
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Back to top -->
+    <div class="btn-back-to-top bg0-hov" id="myBtn">
+        <span class="symbol-btn-back-to-top">
+            <i class="fa fa-angle-double-up" aria-hidden="true"></i>
+        </span>
+    </div>
+
+    <!-- Container Selection -->
+    <div id="dropDownSelect1"></div>
+    <div id="dropDownSelect2"></div>
+
+    <script type="text/javascript" src="~/Content/vendor/select2/select2.min.js"></script>
+
+    <script type="text/javascript">
+        $(".selection-1").select2({
+            minimumResultsForSearch: 20,
+            dropdownParent: $('#dropDownSelect1')
+        });
+
+        $(".selection-2").select2({
+            minimumResultsForSearch: 20,
+            dropdownParent: $('#dropDownSelect2')
+        });
+    </script>
+
+    <script>
+        var str = @Html.Raw(Json.Encode(ViewData["cartitemscount"]));
+
+        if (str > 0)
+        {
+            $("#cartsection").show();
+            $("#shopbtn").hide();
+            document.getElementById("cartheading").innerHTML = "Cart";
+        }
+        else
+        {
+            $("#cartsection").hide();
+            $("#shopbtn").show();
+            document.getElementById("cartheading").innerHTML = "Cart Empty!";
+        }
+
+
+    </script>
+
+</body>

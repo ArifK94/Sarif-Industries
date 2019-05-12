@@ -1,0 +1,91 @@
+﻿@model Sarif_Industries.Models.User
+
+<html>
+<head>
+    @{
+        ViewBag.Title = "Sign in";
+    }
+
+
+
+    <!-- Mobile Specific Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!-- Font-->
+    <link href="~/Content/Registration/css/opensans-font.css" rel="stylesheet" />
+    <link href="~/Content/Registration/fonts/line-awesome/css/line-awesome-font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/Registration/fonts/line-awesome/css/line-awesome-font-awesome.css" rel="stylesheet" />
+    <link href="~/Content/Registration/fonts/line-awesome/css/line-awesome.css" rel="stylesheet" />
+    <link href="~/Content/Registration/fonts/line-awesome/css/line-awesome.min.css" rel="stylesheet" />
+
+    <!-- Jquery -->
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+    <!-- Main Style Css -->
+    <link rel="stylesheet" href="~/Content/Registration/css/style.css" />
+
+
+</head>
+
+
+<body class="form-v4 animsition">
+    <div class="page-content">
+        <div class="form-v4-content">
+            <div class="form-left">
+                <h2 class="text-center">Sign In</h2>
+                <div class="form-left-last">
+                    @Html.ActionLink("Need to Register?", "Register", "",
+                   new { @class = "flex-c-m size15 bg1 bo-rad-50 hov1 s-text1 trans-0-4 text-center" })
+                </div>
+            </div>
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <section class="form-detail m-t-20 m-l-50">
+                <div class="form-row">
+                    <label for="email">Email</label>
+                    <div class="size15 bo4 m-b-12">
+
+                        @Html.EditorFor(model => model.Email,
+                       new { htmlAttributes = new { type = "email" } })
+
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-row">
+                    <label for="password">Password</label>
+                    <div class="size15 bo4 m-b-12">
+
+                        @Html.EditorFor(model => model.Password,
+                       new { htmlAttributes = new { type = "password" } })
+
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-row-last p-t-20 p-l-100">
+                    <button type="submit" class=" flex-c-m size9 bg1 bo-rad-23 hov1 s-text1 trans-0-4">
+                        Login
+                    </button>
+                </div>
+
+                <div class="form-row-last p-t-20 p-l-100">
+                    @if (ViewBag.Message != null)
+                    {
+                        <label class="text-danger">@ViewBag.Message</label>
+                    }
+                </div>
+
+            </section>
+            }
+
+
+
+        </div>
+    </div>
+
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+
+</html>

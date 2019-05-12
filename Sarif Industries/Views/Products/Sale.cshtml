@@ -1,0 +1,118 @@
+﻿@model Sarif_Industries.View_Models.ProductShop
+
+<!DOCTYPE html>
+<head>
+    @{
+        ViewBag.Title = "Sale";
+    }
+
+</head>
+<body>
+
+    <!-- Title Page -->
+    <section class="bg-title-page p-t-50 p-b-40 flex-col-c-m bg7">
+        <h2 class="l-text2 t-center">
+            Sale
+        </h2>
+        <p class="m-text13 t-center text-uppercase">
+            Limited Offer!
+        </p>
+    </section>
+
+
+    <!-- Content page -->
+    <section class="bgwhite p-t-55 p-b-65">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 col-md-8 col-lg-9 p-b-50">
+
+                    <!-- Product -->
+                    <div id="product-section" class="row">
+                        @foreach (var item in Model.Product)
+                        {
+                            <div class="col-sm-12 col-md-6 col-lg-4 p-b-50">
+                                <!-- Block2 -->
+                                <div class="block2">
+
+                                    <a href="@Url.Action("Details","Products", new { id = item.ProductId })">
+
+                                        <div class="block2-img wrap-pic-w of-hidden pos-relative">
+
+                                            @foreach (var thumbnail in Model.ProductThumbnail)
+                                            {
+                                                if (thumbnail.ProductId == item.ProductId)
+                                                {
+                                                    if (item.Stock > 0)
+                                                    {
+                                                        <div class="square block2-labelsale">
+                                                            <div class="productImage">
+                                                                <img src="@thumbnail.FilePath" alt="IMG-PRODUCT">
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="square block2-labelsoldout">
+                                                            <div class="productImage">
+                                                                <img src="@thumbnail.FilePath" alt="IMG-PRODUCT">
+                                                            </div>
+                                                        </div>
+                                                    }
+
+
+                                                }
+                                            }
+                                        </div>
+                                    </a>
+
+                                    <div class="block2-txt p-t-20">
+                                        <a href="@Url.Action("Details","Products", new { id = item.ProductId })" class="block2-name dis-block s-text3 p-b-5">
+                                            @Html.DisplayFor(modelItem => item.Name)
+                                        </a>
+
+                                        @if (item.Stock > 0)
+                                        {
+
+                                            <span class="block2-oldprice m-text7 p-r-5">
+                                                £@Html.DisplayFor(modelItem => item.Price)
+                                            </span>
+
+                                            foreach (var productSale in Model.ProductSalePrice)
+                                            {
+                                                if (productSale.ProductId == item.ProductId)
+                                                {
+                                                    <span class="block2-newprice m-text8 p-r-5">
+                                                        £@productSale.SalePrice
+                                                    </span>
+                                                }
+                                            }
+
+
+                                        }
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+
+
+    <!-- Back to top -->
+    <div class="btn-back-to-top bg0-hov" id="myBtn">
+        <span class="symbol-btn-back-to-top">
+            <i class="fa fa-angle-double-up" aria-hidden="true"></i>
+        </span>
+    </div>
+
+    <!-- Container Selection -->
+    <div id="dropDownSelect1"></div>
+    <div id="dropDownSelect2"></div>
+
+</body>

@@ -1,2 +1,3 @@
-# Sarif-Industries
-ASP NET MVC project
+# Sarif Industries
+
+Personal Project using ASP .NET MVC & Entity Framework

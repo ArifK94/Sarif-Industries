@@ -1,0 +1,22 @@
+﻿.square {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    overflow: hidden;
+    background-color: rgb(53, 53, 53);
+}
+
+.productImage {
+    position: absolute;
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate( -50%, -50%);
+}
+
+productImage.landscape {
+    height: 100%;
+    width: auto;
+}

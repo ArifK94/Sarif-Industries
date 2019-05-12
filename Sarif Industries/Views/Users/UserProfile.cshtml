@@ -1,0 +1,150 @@
+﻿@model Sarif_Industries.View_Models.AccountProfile
+
+<html>
+<head>
+    @{
+        ViewBag.Title = "My Account";
+    }
+</head>
+<body class="animsition">
+
+    <!-- Banner2 -->
+    <section class="banner2 bg5 p-t-55 p-b-55">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-2 col-md-2">
+                    <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png"
+                         alt="" class="img-rounded img-responsive" />
+                </div>
+                <div class="col-sm-4 col-md-4">
+                    <blockquote>
+                        <p>@Model.User.Forename @Model.User.Surname</p>
+                        <small>
+                            <cite title="Source Title">
+                                <i class="glyphicon glyphicon-map-marker"></i>
+                                @Model.CountryList.CountryName
+                                <img src="https://www.countryflags.io/@Model.User.Country/shiny/16.png">
+                            </cite>
+                        </small>
+                    </blockquote>
+                    <p>
+                        <i class="glyphicon glyphicon-envelope"></i> @Model.User.Email
+                        <br /> <i class="glyphicon glyphicon-calendar"></i> @Model.User.JoinDate
+                    </p>
+                </div>
+                <div class="col-sm-2 col-md-4">
+                    <p>
+                        <i class="glyphicon glyphicon-home"></i> @Model.User.Address, @Model.User.PostCode
+                        <br /> <i class="glyphicon glyphicon-phone"></i> @Model.User.Phone
+                    </p>
+                </div>
+            </div>
+
+            <div class="size9 trans-0-4 m-t-10 m-b-10 m-r-10">
+                @Html.ActionLink("Edit Details", "EditProfile", new { id = Model.User.UserId }, 
+               new { @class = "flex-c-m size4 bg7 bo-rad-23 hov1 s-text14 trans-0-4" })
+            </div>
+
+            <div class="size9 trans-0-4 m-t-10 m-b-10 m-r-10">
+
+                <a href="@Url.Action("DeleteUser","Users")" class="flex-c-m size4 btn-danger bo-rad-23 hov1 s-text14 trans-0-4">
+                    Delete Account
+                </a>
+            </div>
+        </div>
+
+
+
+    </section>
+
+
+    <!-- Order Product -->
+    <section class="newproduct bgwhite p-t-45 p-b-105">
+        <div class="container">
+            <div class="sec-title p-b-60">
+                <h3 class="m-text5 t-center">
+                    Orders
+                </h3>
+            </div>
+
+            <!-- Slide -->
+            <div class="wrap-slick2">
+                <div class="slick2">
+
+                    @foreach (var order in Model.Orders)
+                    {
+                        foreach (var product in Model.Products)
+                        {
+
+                            if (order.ProductId == product.ProductId)
+                            {
+                                <div class="item-slick2 p-l-15 p-r-15">
+                                    <!-- Block2 -->
+                                    <div class="block2">
+                                        @foreach (var image in Model.ProductImage)
+                                        {
+                                            if (order.ProductId == image.ProductId)
+                                            {
+                                                <div class="block2-img wrap-pic-w of-hidden pos-relative">
+                                                    <img src="@image.FilePath" alt="IMG-PRODUCT">
+                                                </div>
+                                            }
+                                        }
+                                        <div class="block2-txt p-t-20">
+                                            <a href="@Url.Action("Details", "Products", new { id = product.ProductId })" class="block2-name dis-block s-text3 p-b-5">
+                                                @product.Name
+                                            </a>
+
+                                            <span class="block2-price m-text6 p-r-5">
+                                                £@order.Total
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+
+                    }
+                </div>
+            </div>
+
+
+
+        </div>
+    </section>
+
+    <!-- Back to top -->
+    <div class="btn-back-to-top bg0-hov" id="myBtn">
+        <span class="symbol-btn-back-to-top">
+            <i class="fa fa-angle-double-up" aria-hidden="true"></i>
+        </span>
+    </div>
+
+    <!-- Container Selection1 -->
+    <div id="dropDownSelect1"></div>
+
+    <script type="text/javascript">
+        $(".selection-1").select2({
+            minimumResultsForSearch: 20,
+            dropdownParent: $('#dropDownSelect1')
+        });
+    </script>
+
+    <script type="text/javascript">
+        $('.block2-btn-addcart').each(function () {
+            var nameProduct = $(this).parent().parent().parent().find('.block2-name').html();
+            $(this).on('click', function () {
+                swal(nameProduct, "is added to cart !", "success");
+            });
+        });
+
+        $('.block2-btn-addwishlist').each(function () {
+            var nameProduct = $(this).parent().parent().parent().find('.block2-name').html();
+            $(this).on('click', function () {
+                swal(nameProduct, "is added to wishlist !", "success");
+            });
+        });
+    </script>
+
+</body>
+</html>
