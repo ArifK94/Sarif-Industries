@@ -1,6 +1,6 @@
 # Sarif Industries
 
-A non-commerical of an E-commerce site in selling prosthetic products.
+A non-commerical E-commerce site in selling prosthetic products.
 
 ## Technologies
   - C#
