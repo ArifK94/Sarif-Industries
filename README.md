@@ -2,11 +2,11 @@
 
 A non-commerical of an E-commerce site in selling prosthetic products.
 
-## Languages
+## Technologies
   - C#
   - MySQL
   - Linq
-  - AJax
+  - Ajax
   - Javascript
   - HTML
   - CSS
