@@ -4,7 +4,7 @@ A non-commerical E-commerce site in selling prosthetic products.
 
 ## Technologies
   - C#
-  - MySQL
+  - SQL
   - Linq
   - Ajax
   - Javascript
